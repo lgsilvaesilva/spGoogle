@@ -1,0 +1,5 @@
+
+export(spRplot,
+       spGplot)
+
+import(maptools, XML, RgoogleMaps, PBSmapping)
