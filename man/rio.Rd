@@ -19,7 +19,7 @@
     \item{Dengue}{Counts of dengue fever cases by county in the state of Rio de Janeiro}
     \item{E}{Expected counts of dengue fever cases by county in the state of Rio de Janeiro, conditioned on the total
              number of cases the stratified by population rate}
-    \item{SMR}{The standard mortality ration, calculated as the observed/expected counts}
+    \item{SMR}{The standard mortality ratio, calculated as the observed/expected counts}
   }
 }
 
@@ -37,7 +37,7 @@ spRplot(rio,'Income',cuts=c(0,.2,.4,.6,.8,1))
 spRplot(rio,'Urban',cuts=c(0,.2,.4,.6,.8,1))
               
 ##Using spGplot
-spGplot(rio, 
+#spGplot(rio, 
         var = 'SMR', 
         description = list(var = c('Income', 'Urban'), type = 'bar', title = 'Name'), 
 	      cuts=c(0,.5,1,2,5,10), 

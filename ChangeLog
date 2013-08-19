@@ -1,3 +1,5 @@
-2013-06-19 (0.1-1) Marcos Prates <marcosop@est.ufmg.br>, Luis Gustavo Silva <lgsilvaesilva@gmail.com> and Marcelo Azevedo <macosta.est@gmail.com>
+2013-08-19 (0.1-3) Luis Gustavo Silva <lgsilvaesilva@gmail.com>, Marcos Prates <marcosop@est.ufmg.br> and Marcelo Azevedo <macosta.est@gmail.com>
 
-	* first public release
+* man/ Fixed the problem with spelling errors of manual
+* Fixed the problem with the example code 'spGplot()'
+* Support to Google Chromium browser

@@ -3,7 +3,7 @@
 \docType{data}
 \title{Meuse river data set}
 \description{
-This data set gives locations and topsoil heavy metal concentrations, along with a number of soil and landscape variablesat the observation locations, collected in a flood plain of the river Meuse, near the village of Stein (NL). Data were extracted from the sp package and converted to latitude and longitude format.
+This data set gives locations and topsoil heavy metal concentrations, along with a number of soil and landscape variables at the observation locations, collected in a flood plain of the river Meuse, near the village of Stein (NL). Data were extracted from the sp package and converted to latitude and longitude format.
 }
 \format{
   This data frame contains the following columns:
@@ -61,6 +61,7 @@ data(meuse)
 spRplot(meuse, 'zinc')
 
 meuse@data$title <- rep('Meuse Data', nrow(meuse@data))
+\dontrun{
 spGplot(data = meuse, var = 'zinc', 
 	description = list(var=c('cadmium','copper', 'lead'), type = 'table', title = 'title'))
 
@@ -69,4 +70,5 @@ spGplot(data = meuse, var = 'zinc',
 
 spGplot(data = meuse, var = 'zinc', 
 	description = list(var=c('cadmium','copper', 'lead'), type = 'pie', title = 'title'))
+}
 }

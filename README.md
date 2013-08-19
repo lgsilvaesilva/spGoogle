@@ -1,4 +1,4 @@
 spGoogle
 ========
 
-Desenvolvimeto do pacote spGoogle para usuários R.
+development package for Google users R.

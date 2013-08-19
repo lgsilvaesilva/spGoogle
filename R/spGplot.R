@@ -76,19 +76,23 @@ spGplot <- function(data,						# Shape contendo as informacoes.
     } else{#platform linux or mac
       options(warn=-1)
       path.chrome  <- try(system("which google-chrome", TRUE), TRUE)
+      path.chromium  <- try(system("which chromium-browser", TRUE), TRUE)
       path.firefox <- try(system("which firefox", TRUE), TRUE)
       options(warn=0)
       if(length(is.na(path.firefox)) != 0){ #se possui firefox
         system2(path.firefox, args=path.map, wait=FALSE)
       }else{
         if(length(is.na(path.chrome)) != 0){#se nao possui firefox, testa se possui chrome
-          system2(path.chrome, args = paste("--allow-file-access-from-files", path.map), wait=FALSE, stderr=FALSE) 
-        }else{#se nao possui nenhum dos dois, pedir para instalar
+          system2(path.chrome, args = paste("--allow-file-access-from-files", path.map), wait=FALSE, stderr=FALSE)  
+        }else{
+          if(length(is.na(path.chromium)) != 0){#se nao possui chrome, testa se possui chromium
+            system2(path.chromium, args = paste("--allow-file-access-from-files", path.map), wait=FALSE, stderr=FALSE)
+          }else{  #se nao possui nenhum dos dois, pedir para instalar
           stop("Install Mozilla Firefox or Google Chrome to view the map.")
         }
       }
       #browseURL(path.map)
     }
-  } 
-  else system2(google.earth.path, args=path[1], invisible=FALSE, wait=FALSE)
+    }
+  }else system2(google.earth.path, args=path[1], invisible=FALSE, wait=FALSE)
 }

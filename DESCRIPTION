@@ -1,9 +1,9 @@
 Package: spGoogle
 Type: Package
 Title: Interacting R with Google maps: Spatial visualization tool 
-Version: 0.1-2
+Version: 0.1-3
 Date: 2012-07-31
-Author: Luis Gustavo Silva e Silva <lgsilvaesilva@gmail.com>, Marcos Prates <marcosop@est.ufmg.br> e Marcelo Azevedo <macosta.est@gmail.com>
+Author: Luis Gustavo Silva e Silva <lgsilvaesilva@gmail.com>, Marcos Prates <marcosop@est.ufmg.br> and Marcelo Azevedo <macosta.est@gmail.com>
 Maintainer: Luis Gustavo Silva e Silva <lgsilvaesilva@gmail.com>
 Encoding: UTF-8
 Description: The spGoogle package provides a interface between R and GoogleMaps for data visualization in both directions. Import GoogleMaps background to R plots and export R data information to GoogleMaps. Currently, on Windows the spGoogle can only export to the browser Google Chrome while on Linux both Google Chrome and Firefox are accepted.
