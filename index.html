@@ -29,31 +29,30 @@
       <div class="inner clearfix">
         <section id="main-content">
           <h1>
-<a name="spgoogle" class="anchor" href="#spgoogle"><span class="octicon octicon-link"></span></a>spGoogle</h1>
+<a id="spgoogle" class="anchor" href="#spgoogle" aria-hidden="true"><span class="octicon octicon-link"></span></a>spGoogle</h1>
 
 <p>Development package for users R.
 The spGoogle package provides a interface between R and GoogleMaps for data visualization in both directions. Import GoogleMaps background to R plots and export R data information to GoogleMaps. Currently, on Windows the spGoogle can only export to the browser Google Chrome while on Linux both Google Chrome and Firefox are accepted.</p>
 
 <h3>
-<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h3>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h3>
 
 <p>You can install <code>spGoogle</code> from github using the <code>devtools</code> package</p>
 
-<pre><code>install.package("devtools")
+<pre><code>install.packages("devtools")
 devtools::install_github("lgsilvaesilva/spGoogle")
 </code></pre>
 
 <h3>
-<a name="example" class="anchor" href="#example"><span class="octicon octicon-link"></span></a>Example</h3>
+<a id="example" class="anchor" href="#example" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example</h3>
 
-<div class="highlight highlight-coffee"><pre><span class="nx">require</span><span class="p">(</span><span class="nx">spGoogle</span><span class="p">)</span>
-<span class="nx">data</span><span class="p">(</span><span class="nx">rio</span><span class="p">)</span>
+<div class="highlight highlight-coffee"><pre><span class="pl-c1">require</span>(spGoogle)
+data(rio)
 
-<span class="nx">spRplot</span><span class="p">(</span><span class="nx">rio</span><span class="p">)</span> <span class="c1">#plot in R</span>
-<span class="nx">spGplot</span><span class="p">(</span><span class="nx">rio</span><span class="p">)</span> <span class="c1">#plot in Google Maps ou Google Earth</span>
+spRplot(rio) <span class="pl-c">#plot in R</span>
+spGplot(rio) <span class="pl-c">#plot in Google Maps ou Google Earth</span>
 
-<span class="nx">spGplot</span><span class="p">(</span><span class="nx">rio</span><span class="p">,</span> <span class="nv">var = </span><span class="s">"Dengue"</span><span class="p">)</span>
-</pre></div>
+spGplot(rio, <span class="pl-k">var</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>Dengue<span class="pl-pds">"</span></span>)</pre></div>
         </section>
 
         <aside id="sidebar">
