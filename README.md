@@ -9,7 +9,7 @@ The spGoogle package provides a interface between R and GoogleMaps for data visu
 You can install ``spGoogle`` from github using the ``devtools`` package
 
 ```
-install.package("devtools")
+install.packages("devtools")
 devtools::install_github("lgsilvaesilva/spGoogle")
 ````
 
