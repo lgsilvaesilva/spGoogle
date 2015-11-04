@@ -3,20 +3,21 @@ spGplot <- function(data,						# Shape contendo as informacoes.
                     maptype = 'satellite',
                     description = list(var = NULL, type = NULL, title = NULL),  # Variaveis do description, e o tipo de description
                     decimals = 3,
+                    col.pallete = list(col=heat.colors(if(length(cuts)==1) cuts else length(cuts)),alpha = 1),
                     cuts = 5, 
                     cuts.type = "range",
-                    col.pallete = list(col=heat.colors(if(length(cuts)==1) cuts else length(cuts)),alpha = 1),
                     savekml = NULL,
                     map.name = "kml",						# Nome do mapa usado no arquivo KML
                     map.description = "description",		 		# Descricao do mapa usado no arquivo KML
                     google.maps = TRUE,
-                    google.earth.path = try(system("which google-earth", TRUE), TRUE)){
+                    google.earth.path = try(system("which google-earth", TRUE), TRUE), ...){
   
   if(!(class(data) == "SpatialPolygonsDataFrame") & !(class(data) == "SpatialPolygons") 
      & !(class(data) == "SpatialPointsDataFrame") & !(class(data) == "SpatialPoints")
      #& !(class(data) == "im")
      & !(class(data) == "SpatialPixelsDataFrame") & !(class(data) == "SpatialPixels")
-     & !(class(data) == "SpatialGridDataFrame") & !(class(data) == "SpatialGrid"))
+     & !(class(data) == "SpatialGridDataFrame") & !(class(data) == "SpatialGrid")
+     & !(class(data) == "SpatialLinesDataFrame") & !(class(data) == "SpatialLines"))
     stop("The data must be one of the Spatial classes\n")
   
   if((length(grep("+proj=longlat",data@proj4string@projargs)) == 0) & (length(grep("+proj=latlong",data@proj4string@projargs)) == 0)) stop("Data projection must be in latlong format.\n For more details look at ?CRS")
@@ -36,6 +37,12 @@ spGplot <- function(data,						# Shape contendo as informacoes.
   
   col.pallete <- ColAlpha(col.pallete$col, col.pallete$alpha)
   
+  
+  if (class(data) == "SpatialLinesDataFrame" | class(data) == "SpatialLines"){
+    path <- PlotLineG(data = data, var = var, description = description, map.name = map.name, 
+                      map.description = map.description, decimals = decimals, col.pallete = col.pallete,
+                      cuts = cuts, cuts.type = cuts.type, savekml = savekml)
+  }
   
   if (class(data) == "SpatialPolygonsDataFrame" | class(data) == "SpatialPolygons"){
     path <- PlotPolyG(data = data, var = var, description = description, map.name = map.name, 

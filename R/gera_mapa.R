@@ -10,7 +10,7 @@ GeraMapa <- function(data = NULL,						    	# Shape contendo as informações.
 	 cuts.type = NULL,				#Tipo de quebra(range, quantile).
 	 border      = 1,				# Visualizar bordas entre os polígonos
 	 savekml,
-	 legend.vis  = TRUE) {
+	 legend.vis  = TRUE, ...) {
 	 
  shape <- data
  if (class(shape) == "SpatialPolygonsDataFrame" | class(shape) == "SpatialPolygons"){
