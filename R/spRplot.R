@@ -3,7 +3,7 @@
 ## dado: 26/01/2011
 spRplot <- function(data, var=NULL, maptype = 'satellite', decimals = 3, add = FALSE,
                     cuts = 5, cuts.type="range", 
-                    col.pallete = list(col=heat.colors(if(length(cuts)==1) cuts else length(cuts)),alpha = 1))
+                    col.pallete = list(col=heat.colors(if(length(cuts)==1) cuts else length(cuts)),alpha = 1), legend.position = "bottomright", lwd = 2, ...)
 #brewer.pal(cuts,"RdBu"))
 {
    #source("utils.R")
@@ -17,7 +17,8 @@ spRplot <- function(data, var=NULL, maptype = 'satellite', decimals = 3, add = F
       & !(class(data) == "SpatialPointsDataFrame") & !(class(data) == "SpatialPoints")
       #& !(class(data) == "im")
       & !(class(data) == "SpatialPixelsDataFrame") & !(class(data) == "SpatialPixels")
-      & !(class(data) == "SpatialGridDataFrame") & !(class(data) == "SpatialGrid"))
+      & !(class(data) == "SpatialGridDataFrame") & !(class(data) == "SpatialGrid")
+      & !(class(data) == "SpatialLinesDataFrame") & !(class(data) == "SpatialLines"))
  	stop("The data must be one of the Spatial classes\n")
 
    if((length(grep("+proj=longlat",data@proj4string@projargs)) == 0) & (length(grep("+proj=latlong",data@proj4string@projargs)) == 0)) stop("Data projection must be in latlong format.\n For more details look at ?CRS")
@@ -37,11 +38,13 @@ spRplot <- function(data, var=NULL, maptype = 'satellite', decimals = 3, add = F
    col.pallete <- ColAlpha(col.pallete$col, col.pallete$alpha)
    
    if(class(data) == "SpatialPolygonsDataFrame" | class(data) == "SpatialPolygons") 
-        plot.poly(data,var,decimals,maptype,cuts,col.pallete,add,cuts.type)
+        plot.poly(data,var,decimals,maptype,cuts,col.pallete,add,cuts.type, legend.position)
 
    if(class(data) == "SpatialPointsDataFrame"  | class(data) == "SpatialPoints") 
-        plot.points(data,var,decimals,maptype,cuts,col.pallete,add,cuts.type)
+        plot.points(data,var,decimals,maptype,cuts,col.pallete,add,cuts.type, legend.position)
 
+   if(class(data) == "SpatialLinesDataFrame"  | class(data) == "SpatialLines") 
+     plot.line(data,var,decimals,maptype,cuts,col.pallete,add,cuts.type, lwd, legend.position)
 #   if(class(data) == "im"){
 #        cat("\nPlotting kernel may take a while!\n")
 #        plot.im(data,NULL,decimals,maptype,cuts,col.pallete,add,cuts.type)
@@ -50,7 +53,7 @@ spRplot <- function(data, var=NULL, maptype = 'satellite', decimals = 3, add = F
    if(class(data) == "SpatialPixelsDataFrame" | class(data) == "SpatialPixels"
       | class(data) == "SpatialGridDataFrame" | class(data) == "SpatialGrid"){
         cat("\nPlotting grid may take a while!\n")
-        plot.pixel(data,var,decimals,maptype,cuts,col.pallete,add,cuts.type)
+        plot.pixel(data,var,decimals,maptype,cuts,col.pallete,add,cuts.type, legend.position)
    }
 
 }  
