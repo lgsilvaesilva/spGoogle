@@ -6,6 +6,7 @@ spGplot <- function(data,						# Shape contendo as informacoes.
                     col.pallete = list(col=heat.colors(if(length(cuts)==1) cuts else length(cuts)),alpha = 1),
                     cuts = 5, 
                     cuts.type = "range",
+                    lwd = 1.5,
                     savekml = NULL,
                     map.name = "kml",						# Nome do mapa usado no arquivo KML
                     map.description = "description",		 		# Descricao do mapa usado no arquivo KML
@@ -41,7 +42,7 @@ spGplot <- function(data,						# Shape contendo as informacoes.
   if (class(data) == "SpatialLinesDataFrame" | class(data) == "SpatialLines"){
     path <- PlotLineG(data = data, var = var, description = description, map.name = map.name, 
                       map.description = map.description, decimals = decimals, col.pallete = col.pallete,
-                      cuts = cuts, cuts.type = cuts.type, savekml = savekml)
+                      cuts = cuts, cuts.type = cuts.type, savekml = savekml, lwd, ...)
   }
   
   if (class(data) == "SpatialPolygonsDataFrame" | class(data) == "SpatialPolygons"){

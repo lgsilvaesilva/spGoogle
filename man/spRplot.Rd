@@ -8,8 +8,10 @@
 \usage{
 spRplot(data, var=NULL, maptype='satellite', decimals = 3, 
         add = FALSE,cuts = 5, cuts.type='range', 
+        lwd = 1.5,
         col.pallete = list(col=heat.colors(if(length(cuts)==1) 
-                           cuts else length(cuts)),alpha = 1))
+                           cuts else length(cuts)),alpha = 1)
+        legend.position = 'bottomright')
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -22,6 +24,8 @@ spRplot(data, var=NULL, maptype='satellite', decimals = 3,
   \item{cuts.type}{ method of selecting the cuts points. Ignored if cuts = vector }
   \item{col.pallete}{ a list containing the pallete of colors to be used (col) and the 
 transparency level (alpha) }
+  \item{lwd}{ the line width for SpatialLines/SpatialLinesDataframe class}
+  \item{legend.position}{the x and y co-ordinates to be used to position the legend. They can be specified by keyword or in any way which is accepted by xy.coords}
 }
 \value{
   A plot window .

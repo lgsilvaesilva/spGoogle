@@ -52,7 +52,7 @@ set.var <- function(wei,decimals,prob,nam){
 ###########################################################################################
 ## Plot Polygons
 ###########################################################################################
-plot.poly <- function(data, var, decimals, maptype, cuts, col.pallete, add, cuts.type, border=NULL, legend.position = "bottomright")
+plot.poly <- function(data, var, decimals, maptype, cuts, col.pallete, add, cuts.type, legend.position = "bottomright", border = NULL,...)
 {
  box <- data@bbox
  wei <- set.wei(data,var)
@@ -75,7 +75,7 @@ plot.poly <- function(data, var, decimals, maptype, cuts, col.pallete, add, cuts
 
  
  PlotOnStaticMap(map,add=add)
- PlotPolysOnStaticMap(map, SpatialPolygons2PolySet(data), lwd=.5, col = ch.var$vcol,border=border)
+ PlotPolysOnStaticMap(map, SpatialPolygons2PolySet(data), lwd=.5, col = ch.var$vcol, border=border, ...)
  if((!add) & (length(wei) > 0)) legend(legend.position,fill=ch.var$cols, legend=ch.var$leg, cex=1,ncol=1,bty="n")
  invisible(file.remove(c("TemporaryMap.png","TemporaryMap.png.rda")))
 }
@@ -83,7 +83,7 @@ plot.poly <- function(data, var, decimals, maptype, cuts, col.pallete, add, cuts
 ###########################################################################################
 ## Plot Points
 ###########################################################################################
-plot.points <- function(data, var, decimals, maptype, cuts, col.pallete, add, cuts.type, legend.position = "bottomright")
+plot.points <- function(data, var, decimals, maptype, cuts, col.pallete, add, cuts.type, legend.position = "bottomright", ...)
 {
   box <- data@bbox
   
@@ -107,7 +107,7 @@ plot.points <- function(data, var, decimals, maptype, cuts, col.pallete, add, cu
                          destfile = destfile, zoom=zoom)		## png
 
    #PlotOnStaticMap(map)
-   PlotOnStaticMap(map,data@coords[,2],data@coords[,1], cex=ch.var$vsize, pch=20, col = ch.var$vcol, add = add)
+   PlotOnStaticMap(map,data@coords[,2],data@coords[,1], cex=ch.var$vsize, pch=20, col = ch.var$vcol, add = add, ...)
    ## Inserir Legenda
    if((!add) & (length(wei) > 0)) legend(legend.position,fill=ch.var$cols, legend=ch.var$leg, cex=1,ncol=1,bty="n")
    invisible(file.remove(c("TemporaryMap.png","TemporaryMap.png.rda")))
@@ -115,7 +115,7 @@ plot.points <- function(data, var, decimals, maptype, cuts, col.pallete, add, cu
 ###########################################################################################
 ## Plot Pixel
 ###########################################################################################
-plot.pixel <- function(data, var, decimals, maptype, cuts, col.pallete,add,cuts.type, legend.position = "bottomright")
+plot.pixel <- function(data, var, decimals, maptype, cuts, col.pallete,add,cuts.type, legend.position = "bottomright", ...)
 {
   box <- data@bbox
 
@@ -131,13 +131,13 @@ plot.pixel <- function(data, var, decimals, maptype, cuts, col.pallete,add,cuts.
 
   spol@bbox <- box
   
-  plot.poly(spol,var,decimals,maptype, cuts, col.pallete, add, cuts.type, border=NA, legend.position = legend.position)
+  plot.poly(spol,var,decimals,maptype, cuts, col.pallete, add, cuts.type, border=NA, legend.position = legend.position, ...)
 }
 
 ###########################################################################################
 ## Plot kernel
 ###########################################################################################
-plot.im <- function(data, var, decimals, maptype, cuts, col.pallete,add,cuts.type, legend.position = "bottomright")
+plot.im <- function(data, var, decimals, maptype, cuts, col.pallete,add,cuts.type, legend.position = "bottomright", ...)
 {
   sp.point <- SpatialPoints(cbind(data$xcol, data$yrow))
   sp.grid <- points2grid(sp.point)
@@ -150,14 +150,14 @@ plot.im <- function(data, var, decimals, maptype, cuts, col.pallete,add,cuts.typ
   spix <- as(sp.grid, "SpatialPixelsDataFrame")
   spol <- as(spix, "SpatialPolygonsDataFrame") 
   
-  plot.poly(spol,names(spol@data)[1],decimals,maptype, cuts, col.pallete, add, cuts.type, border=NA, legend.position = legend.position)
+  plot.poly(spol,names(spol@data)[1],decimals,maptype, cuts, col.pallete, add, cuts.type, border=NA, legend.position = legend.position, ...)
 }
 
 
 ###########################################################################################
 ## Plot Lines
 ###########################################################################################
-plot.line <- function(data, var, decimals, maptype, cuts, col.pallete, add, cuts.type, lwd = 1.5, legend.position)
+plot.line <- function(data, var, decimals, maptype, cuts, col.pallete, add, cuts.type, lwd = 1.5, legend.position, ...)
 {
   box <- data@bbox
   wei <- set.wei(data,var)
@@ -168,6 +168,9 @@ plot.line <- function(data, var, decimals, maptype, cuts, col.pallete, add, cuts
   }
   
   ch.var <- set.var(wei,decimals,prob,col.pallete)
+  if(is.null(var)){
+    ch.var$vcol <- rep(ch.var$vcol, nrow(data))
+  }
   ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ##
   ## Plota o mapa no mapa do Google Maps	
   #maptype  <- 'satellite'	##'terrain', 'roadmap', 'satellite', 'hybrid'
@@ -181,13 +184,13 @@ plot.line <- function(data, var, decimals, maptype, cuts, col.pallete, add, cuts
   
   coordLines <- coordinates(data)
   if(!add){
-    PlotOnStaticMap(map, coordLines[[1]][[1]][,2], coordLines[[1]][[1]][,1], lwd = lwd, col = ch.var$vcol[1], add = F, FUN = lines)
+    PlotOnStaticMap(map, coordLines[[1]][[1]][,2], coordLines[[1]][[1]][,1], lwd = lwd, col = ch.var$vcol[1], add = F, FUN = lines, ...)
     for(i in 2:nrow(data)) {
-      PlotOnStaticMap(map, coordLines[[i]][[1]][,2], coordLines[[i]][[1]][,1], lwd = lwd, col = ch.var$vcol[i], add = T, FUN = lines)
+      PlotOnStaticMap(map, coordLines[[i]][[1]][,2], coordLines[[i]][[1]][,1], lwd = lwd, col = ch.var$vcol[i], add = T, FUN = lines, ...)
     }  
   }else{
     for(i in 1:nrow(data)) {
-      PlotOnStaticMap(map, coordLines[[i]][[1]][,2], coordLines[[i]][[1]][,1], lwd = lwd, col = ch.var$vcol[i], add = T, FUN = lines)
+      PlotOnStaticMap(map, coordLines[[i]][[1]][,2], coordLines[[i]][[1]][,1], lwd = lwd, col = ch.var$vcol[i], add = T, FUN = lines, ...)
     }
   }
   

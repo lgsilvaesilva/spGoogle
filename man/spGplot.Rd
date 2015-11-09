@@ -11,6 +11,7 @@ spGplot(data, var=NULL, maptype='satellite',
 	decimals = 3, cuts = 5, cuts.type = 'range',
 	col.pallete = list(col=heat.colors(if(length(cuts)==1) 
         cuts else length(cuts)),alpha = 1), savekml = NULL,
+        lwd = 1.5,
         map.name='kml',
         map.description='description',
         google.maps = TRUE,
@@ -29,6 +30,7 @@ name(s) in the spatial data. type = type of plot inside the balloon. title = bal
   \item{cuts.type}{ method of selecting the cuts points. Ignored if cuts = vector }
   \item{col.pallete}{ a list containing the pallete of colors to be used (col) and the 
 transparency level (alpha) }
+  \item{lwd}{ the line width for SpatialLines/SpatialLinesDataframe class}
   \item{savekml}{ the name of the output KML. If name is not defined the function will
   create the file in directory temporary. Default is NULL.}
   \item{map.name}{ the name of the KML}  
