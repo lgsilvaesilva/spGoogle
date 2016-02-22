@@ -3,6 +3,7 @@
   <head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
     <style type="text/css">
+      #draggable { width: 150px; height: 150px; padding: 0.5em; }
       html { height: 100% }
       body { height: 100%; margin: 0; padding: 0 }
       #map-canvas { height: 100% }
@@ -24,6 +25,11 @@
  
 
     <script type="text/javascript">
+
+   $(function(e) {
+        $( "#legendDrag" ).draggable();
+      });
+
       function initialize() {
         var mapOptions = {
           center: new google.maps.LatLng(0,0),
@@ -41,7 +47,7 @@
   <body>
     <div id="map-canvas">	
     </div>
-    <div style="position: absolute; right: 100px; top: 450px; z-index: 2; width: 148px; height: 118px;">
+    <div id="legendDrag" style="position: fixed; right: 100px; top: 450px; z-index: 2; width: 148px; height: 118px;">
     	<img src="_legendaKML_">
     </div>
   </body>
