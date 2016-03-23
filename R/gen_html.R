@@ -7,8 +7,6 @@ genHTML <- function(maptype, kml, leg, tempdir, dir_save){
 local.path <- system.file("gmaps/geo_temp.html", package = "spGoogle")
 
 kml <- basename(kml)
-leg <- basename(leg)
-
 max <- 99999999
 
 MAP <- 'SATELLITE'
@@ -25,6 +23,7 @@ html <- gsub("_nameKML_",paste(tempdir,"/",kml,sep=""), html)
 if (!is.na(leg)) {
   html <- gsub("_legendaKML_", paste('<img src=\"',tempdir,"/",leg, '\">', sep=""), html)
 } else {
+  leg <- basename(leg)
   html <- gsub(pattern = "_legendaKML_", replacement = '', x = html)
 }
 
