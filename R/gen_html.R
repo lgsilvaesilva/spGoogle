@@ -21,9 +21,9 @@ html <- readLines(local.path)
 html <- gsub("_maptype_",MAP,html)
 html <- gsub("_nameKML_",paste(tempdir,"/",kml,sep=""), html)
 if (!is.na(leg)) {
+  leg <- basename(leg)
   html <- gsub("_legendaKML_", paste('<img src=\"',tempdir,"/",leg, '\">', sep=""), html)
 } else {
-  leg <- basename(leg)
   html <- gsub(pattern = "_legendaKML_", replacement = '', x = html)
 }
 
