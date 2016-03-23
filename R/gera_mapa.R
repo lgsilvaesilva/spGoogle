@@ -6,6 +6,7 @@ GeraMapa <- function(data = NULL,						    	# Shape contendo as informações.
 	 map.description = "description",		# Descrição do mapa usado no arquivo KML
 	 decimals,
 	 col.pallete = list(col=heat.colors(if(length(cuts)==1) cuts else length(cuts)),alpha = 1),
+	 legend.att,
 	 cuts,						#Número de quebras do vetor ou vetor com as quebras.
 	 cuts.type = NULL,				#Tipo de quebra(range, quantile).
 	 border      = 1,				# Visualizar bordas entre os polígonos
@@ -37,7 +38,7 @@ if (!is.null(var)){
 ##-----##
 
 ##-- Legenda --##
-  dest.fig.attrs <- gera_figura_legenda(brks, plotclr, r = decimals, num.faixas, savekml)
+  dest.fig.attrs <- gera_figura_legenda(brks, plotclr, r = decimals, num.faixas, savekml, legend.att = legend.att)
   dest.fig       <- dest.fig.attrs[1]
   fig.width      <- dest.fig.attrs[2]
   fig.height     <- dest.fig.attrs[3]
@@ -59,7 +60,7 @@ if (!is.null(var)){
          }
       }
 ##-- Legenda --##
-    dest.fig.attrs <- gera_legenda_factor(brks, plotclr, savekml)
+    dest.fig.attrs <- gera_legenda_factor(brks, plotclr, savekml, legend.att)
     dest.fig       <- dest.fig.attrs[1]
     fig.width      <- dest.fig.attrs[2]
     fig.height     <- dest.fig.attrs[3]

@@ -4,6 +4,7 @@ spGplot <- function(data,						# Shape contendo as informacoes.
                     description = list(var = NULL, type = NULL, title = NULL),  # Variaveis do description, e o tipo de description
                     decimals = 3,
                     col.pallete = list(col=heat.colors(if(length(cuts)==1) cuts else length(cuts)),alpha = 1),
+                    legend.att = list(title = NULL, ncol = 1, bg = "#FFFFFF"),
                     cuts = 5, 
                     cuts.type = "range",
                     lwd = 1.5,
@@ -11,7 +12,7 @@ spGplot <- function(data,						# Shape contendo as informacoes.
                     map.name = "kml",						# Nome do mapa usado no arquivo KML
                     map.description = "description",		 		# Descricao do mapa usado no arquivo KML
                     google.maps = TRUE,
-                    google.earth.path = try(system("which google-earth", TRUE), TRUE), ...){
+                    google.earth.path = try(system("which google-earth", ignore.stdout = T, ignore.stderr = T), silent = T), ...){
   
   if(!(class(data) == "SpatialPolygonsDataFrame") & !(class(data) == "SpatialPolygons") 
      & !(class(data) == "SpatialPointsDataFrame") & !(class(data) == "SpatialPoints")
@@ -42,19 +43,19 @@ spGplot <- function(data,						# Shape contendo as informacoes.
   if (class(data) == "SpatialLinesDataFrame" | class(data) == "SpatialLines"){
     path <- PlotLineG(data = data, var = var, description = description, map.name = map.name, 
                       map.description = map.description, decimals = decimals, col.pallete = col.pallete,
-                      cuts = cuts, cuts.type = cuts.type, savekml = savekml, lwd, ...)
+                      legend.att = legend.att, cuts = cuts, cuts.type = cuts.type, savekml = savekml, lwd, ...)
   }
   
   if (class(data) == "SpatialPolygonsDataFrame" | class(data) == "SpatialPolygons"){
     path <- PlotPolyG(data = data, var = var, description = description, map.name = map.name, 
                       map.description = map.description, decimals = decimals, col.pallete = col.pallete,
-                      cuts = cuts, cuts.type = cuts.type, savekml = savekml)
+                      legend.att = legend.att, cuts = cuts, cuts.type = cuts.type, savekml = savekml)
   }
   
   if (class(data) == "SpatialPointsDataFrame"  | class(data) == "SpatialPoints"){
     path <- PlotPointsG(data = data, var = var, description = description, map.name = map.name, 
                         map.description = map.description, decimals = decimals, col.pallete = col.pallete,
-                        cuts = cuts, cuts.type = cuts.type, savekml = savekml)
+                        legend.att = legend.att, cuts = cuts, cuts.type = cuts.type, savekml = savekml)
   }
   
   if(class(data) == "SpatialPixelsDataFrame" | class(data) == "SpatialPixels"
@@ -62,7 +63,7 @@ spGplot <- function(data,						# Shape contendo as informacoes.
     cat("\nPlotting grid may take a while!\n")
     path <- PlotPixelG(data = data, var = var, description = list(var = NULL, type = NULL, title = NULL), map.name = map.name, 
                        map.description = map.description, decimals = decimals, col.pallete = col.pallete,
-                       cuts = cuts, cuts.type = cuts.type, savekml = savekml)
+                       legend.att = legend.att, cuts = cuts, cuts.type = cuts.type, savekml = savekml)
   }
   
   ##Passar centroide e zoom
@@ -70,37 +71,22 @@ spGplot <- function(data,						# Shape contendo as informacoes.
     dir <- dirname(path$kmlpath)
     file <- basename(path$kmlpath)
     leg.file <- path$leg.path
-    #path.map <- genHTML(maptype, file, legpath = path$legpath, dir)
-    path.map <- genHTML(maptype, file, leg.file, dir)
-    if(.Platform$OS.type == "windows"){
-      #USER <- strsplit(tempdir(), "\\\\")[[1]][3]
-      #path.chrome <- "C:\\Users\\%s\\AppData\\Local\\Google\\Chrome\\Application\\chrome.exe"
-      #path.chrome <- sprintf(path.chrome, USER)
-      brw <- unlist(readRegistry("http\\shell\\open\\command", "HCR"))
-      path.chrome <- brw[grep("chrome", brw)[1]]
-      path.chrome <- gsub("\" -- \"%1\"", "", path.chrome)
-      path.chrome <- gsub("\"", "", path.chrome)
-      system2(path.chrome, args = paste("--allow-file-access-from-files", path.map), invisible = FALSE, wait=FALSE)
-    } else{#platform linux or mac
-      options(warn=-1)
-      path.chrome  <- try(system("which google-chrome", TRUE), TRUE)
-      path.chromium  <- try(system("which chromium-browser", TRUE), TRUE)
-      path.firefox <- try(system("which firefox", TRUE), TRUE)
-      options(warn=0)
-      if(length(is.na(path.firefox)) != 0){ #se possui firefox
-        system2(path.firefox, args=path.map, wait=FALSE)
-      }else{
-        if(length(is.na(path.chrome)) != 0){#se nao possui firefox, testa se possui chrome
-          system2(path.chrome, args = paste("--allow-file-access-from-files", path.map), wait=FALSE, stderr=FALSE)  
-        }else{
-          if(length(is.na(path.chromium)) != 0){#se nao possui chrome, testa se possui chromium
-            system2(path.chromium, args = paste("--allow-file-access-from-files", path.map), wait=FALSE, stderr=FALSE)
-          }else{  #se nao possui nenhum dos dois, pedir para instalar
-          stop("Install Mozilla Firefox or Google Chrome to view the map.")
-        }
-      }
-      #browseURL(path.map)
-    }
-    }
-  }else system2(google.earth.path, args=path[1], invisible=FALSE, wait=FALSE)
+    path.map <- genHTML(maptype = maptype, kml = file, leg = leg.file, tempdir = '.', dir_save = dir)
+
+    env <- get( ".httpd.handlers.env", asNamespace("tools"))
+    env[["spGoogle"]] <- spGoogle.httpd.handler
+    root.dir <- dir
+    .url <- sprintf("http://127.0.0.1:%s/custom/spGoogle/%s",
+                    ifelse(R.version['svn rev'] < 67550 | getRversion() < "3.2.0",
+                           get("httpdPort", envir=environment(startDynamicHelp)),
+                           tools::startDynamicHelp(NA)
+                    ),
+                    path.map)
+    
+    viewer <- getOption("viewer")
+    if (!is.null(viewer))
+      viewer(.url)
+    else
+      utils:: browseURL(.url)
+  }
 }

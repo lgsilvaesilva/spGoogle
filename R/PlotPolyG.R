@@ -5,12 +5,13 @@ PlotPolyG <- function(data,
 					 map.description,
 					 decimals,
 					 col.pallete,
+					 legend.att,
                      			 cuts, 
 					 cuts.type,
 					 savekml,
 					 border = "#A5A5A5"){
 
-output <- GeraMapa(data, var, description, map.name, map.description, decimals, col.pallete, cuts, cuts.type, savekml = savekml)
+output <- GeraMapa(data, var, description, map.name, map.description, decimals, col.pallete, legend.att, cuts, cuts.type, savekml = savekml)
 			 
 data <- output$data.out
 leg  <- output$leg

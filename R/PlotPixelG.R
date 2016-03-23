@@ -6,6 +6,7 @@ PlotPixelG <- function(data,
 					 map.description,
 					 decimals,
 					 col.pallete,
+					 legend.att,
 			                 cuts, 
 					 cuts.type,
 			                 savekml)
@@ -25,8 +26,8 @@ PlotPixelG <- function(data,
   spol@bbox <- box
   
   out <- PlotPolyG(data = spol, var = var, description = description, map.name = map.name, 
-	    map.description = map.description, decimals = decimals, col.pallete = col.pallete,
-	    cuts = cuts, cuts.type = cuts.type, savekml = savekml, border = "#A5A5A500")
+	    map.description = map.description, decimals = decimals, col.pallete = col.pallete, 
+	    legend.att = legend.att, cuts = cuts, cuts.type = cuts.type, savekml = savekml, border = "#A5A5A500")
   return(out)
 #  box <- data@bbox
 #  wei <- set.wei(data,var)

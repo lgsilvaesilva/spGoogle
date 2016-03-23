@@ -198,4 +198,19 @@ plot.line <- function(data, var, decimals, maptype, cuts, col.pallete, add, cuts
   invisible(file.remove(c("TemporaryMap.png","TemporaryMap.png.rda")))
 }
 
+#################
+spGoogle.httpd.handler <- function(path, query, ...) {
+  
+  # path <- gsub("^/custom/spGoogle/", "", path)
+  dir_serv <- gsub("^/custom/spGoogle/", "", dirname(path))
+  path <- basename(path)
+  
+  f <- sprintf("%s%s%s",
+               dir_serv,
+               .Platform$file.sep,
+               path) 
+  list(file=f,
+       "content-type"="text/html",
+       "status code"=200L)
+}
 
