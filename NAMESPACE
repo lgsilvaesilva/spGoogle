@@ -1,5 +1,7 @@
 
 export(spRplot,
-       spGplot)
-
+       spGplot,
+       "+")
+S3method("+", spGoogle)
+S3method(print, spGoogle)
 import(maptools, XML, RgoogleMaps, PBSmapping)
