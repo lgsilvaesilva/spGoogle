@@ -13,7 +13,7 @@ set.wei <- function(data,var){
 ###########################################################################################
 ## Set plot variables
 ###########################################################################################
-set.var <- function(wei,decimals,prob,nam){
+set.var <- function(wei,decimals,prob,nam, under = 'under', over = 'over', between = '-'){
   if(length(wei)>0)
    {
       if(is.numeric(wei)){ 
@@ -23,7 +23,7 @@ set.var <- function(wei,decimals,prob,nam){
            #nclr    <- min(nclr,length(plotclr))
   	   vcol    <- plotclr[ findInterval(wei,brks) ]
   	   vsize   <- (findInterval(wei,brks)/max(findInterval(wei,brks)) + 1) 
-  	   leg     <- leglabs(round(brks,decimals))
+  	   leg     <- leglabs(round(brks,decimals), under = under, over = over, between = between)
   	 }
   	 else{ 
   	   wei     <- as.factor(wei)
@@ -52,38 +52,53 @@ set.var <- function(wei,decimals,prob,nam){
 ###########################################################################################
 ## Plot Polygons
 ###########################################################################################
-plot.poly <- function(data, var, decimals, maptype, cuts, col.pallete, add, cuts.type, legend.position = "bottomright", border = NULL,...)
+plot.poly <- function(data, var, decimals, maptype, cuts, col.pallete, add, cuts.type, legend.att, border = NULL, zoom = NULL, ...)
 {
- box <- data@bbox
+  box <- data@bbox
  wei <- set.wei(data,var)
 
  if(is.numeric(wei)){ 
    if(length(cuts) == 1) prob <- genprob(wei,cuts,cuts.type)
    else prob <- cuts
  }
-
- ch.var <- set.var(wei,decimals,prob,col.pallete)
- ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ##
+ 
+ ch.var <- set.var(wei, decimals, prob, col.pallete, 
+                   under = ifelse(is.null(legend.att$under), 'under', legend.att$under), 
+                   over = ifelse(is.null(legend.att$over), 'over', legend.att$over), 
+                   between = ifelse(is.null(legend.att$between), '-', legend.att$between))
+ 
+ legend.att['between'] <- NULL
+ legend.att['under'] <- NULL
+ legend.att['over'] <- NULL
+ 
+ legend.default <- list(x = "bottomright", legend = ch.var$leg, fill = ch.var$cols, cex = 1, ncol = 1, bty = "n")
+ legend.default[names(legend.att)] <- NULL
+ legend.list <- c(legend.att, legend.default)
+  ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ##
  ## Plota o mapa no mapa do Google Maps	
  #maptype  <- 'satellite'	##'terrain', 'roadmap', 'satellite', 'hybrid'
  n_pix    <- 640
  destfile <- 'TemporaryMap.png'
 
- zoom <- min(MaxZoom(range(box[1,]), range(box[2,])))
+ if (is.null(zoom)) {
+   zoom <- min(MaxZoom(range(box[1,]), range(box[2,]))) 
+ }
+ 
  map <- GetMap.bbox(box[1,], box[2,], format = 'png', maptype = maptype, 
                     destfile = destfile, zoom = zoom)		## png
 
  
  PlotOnStaticMap(map,add=add)
  PlotPolysOnStaticMap(map, SpatialPolygons2PolySet(data), lwd=.5, col = ch.var$vcol, border=border, ...)
- if((!add) & (length(wei) > 0)) legend(legend.position,fill=ch.var$cols, legend=ch.var$leg, cex=1,ncol=1,bty="n")
+ 
+ if((!add) & (length(wei) > 0)) do.call(legend, legend.list)
  invisible(file.remove(c("TemporaryMap.png","TemporaryMap.png.rda")))
 }
 
 ###########################################################################################
 ## Plot Points
 ###########################################################################################
-plot.points <- function(data, var, decimals, maptype, cuts, col.pallete, add, cuts.type, legend.position = "bottomright", ...)
+plot.points <- function(data, var, decimals, maptype, cuts, col.pallete, add, cuts.type, legend.att, zoom = NULL, ...)
 {
   box <- data@bbox
   
@@ -94,28 +109,42 @@ plot.points <- function(data, var, decimals, maptype, cuts, col.pallete, add, cu
    else prob <- cuts
  }
    
-  ch.var <- set.var(wei,decimals,prob,col.pallete)
-
+  ch.var <- set.var(wei, decimals, prob, col.pallete, 
+                    under = ifelse(is.null(legend.att$under), 'under', legend.att$under), 
+                    over = ifelse(is.null(legend.att$over), 'over', legend.att$over), 
+                    between = ifelse(is.null(legend.att$between), '-', legend.att$between))
+  
+  legend.att['between'] <- NULL
+  legend.att['under'] <- NULL
+  legend.att['over'] <- NULL
+  
+  legend.default <- list(x = "bottomright", legend = ch.var$leg, fill = ch.var$cols, cex = 1, ncol = 1, bty = "n")
+  legend.default[names(legend.att)] <- NULL
+  legend.list <- c(legend.att, legend.default)
+  
    ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ##
    ## Plota o mapa no mapa do Google Maps	
    #maptype  <- 'satellite'	##'terrain', 'roadmap', 'satellite', 'hybrid'
    n_pix    <- 640
    destfile <- 'TemporaryMap.png'
 
-   zoom <- min(MaxZoom(range(box[1,]), range(box[2,])))
+   if (is.null(zoom)) {
+     zoom <- min(MaxZoom(range(box[1,]), range(box[2,]))) 
+   }
+   
    map <- GetMap.bbox(box[1,], box[2,], format = 'png', maptype = maptype, 
                          destfile = destfile, zoom=zoom)		## png
 
    #PlotOnStaticMap(map)
    PlotOnStaticMap(map,data@coords[,2],data@coords[,1], cex=ch.var$vsize, pch=20, col = ch.var$vcol, add = add, ...)
    ## Inserir Legenda
-   if((!add) & (length(wei) > 0)) legend(legend.position,fill=ch.var$cols, legend=ch.var$leg, cex=1,ncol=1,bty="n")
+   if((!add) & (length(wei) > 0)) do.call(legend, legend.list)
    invisible(file.remove(c("TemporaryMap.png","TemporaryMap.png.rda")))
 }
 ###########################################################################################
 ## Plot Pixel
 ###########################################################################################
-plot.pixel <- function(data, var, decimals, maptype, cuts, col.pallete,add,cuts.type, legend.position = "bottomright", ...)
+plot.pixel <- function(data, var, decimals, maptype, cuts, col.pallete,add,cuts.type, legend.att, zoom = NULL, ...)
 {
   box <- data@bbox
 
@@ -131,13 +160,13 @@ plot.pixel <- function(data, var, decimals, maptype, cuts, col.pallete,add,cuts.
 
   spol@bbox <- box
   
-  plot.poly(spol,var,decimals,maptype, cuts, col.pallete, add, cuts.type, border=NA, legend.position = legend.position, ...)
+  plot.poly(spol,var,decimals,maptype, cuts, col.pallete, add, cuts.type, border=NA, legend.att, zoom, ...)
 }
 
 ###########################################################################################
 ## Plot kernel
 ###########################################################################################
-plot.im <- function(data, var, decimals, maptype, cuts, col.pallete,add,cuts.type, legend.position = "bottomright", ...)
+plot.im <- function(data, var, decimals, maptype, cuts, col.pallete,add,cuts.type, legend.att, zoom = NULL, ...)
 {
   sp.point <- SpatialPoints(cbind(data$xcol, data$yrow))
   sp.grid <- points2grid(sp.point)
@@ -150,14 +179,14 @@ plot.im <- function(data, var, decimals, maptype, cuts, col.pallete,add,cuts.typ
   spix <- as(sp.grid, "SpatialPixelsDataFrame")
   spol <- as(spix, "SpatialPolygonsDataFrame") 
   
-  plot.poly(spol,names(spol@data)[1],decimals,maptype, cuts, col.pallete, add, cuts.type, border=NA, legend.position = legend.position, ...)
+  plot.poly(spol,names(spol@data)[1],decimals,maptype, cuts, col.pallete, add, cuts.type, border=NA, legend.att, zoom, ...)
 }
 
 
 ###########################################################################################
 ## Plot Lines
 ###########################################################################################
-plot.line <- function(data, var, decimals, maptype, cuts, col.pallete, add, cuts.type, lwd = 1.5, legend.position, ...)
+plot.line <- function(data, var, decimals, maptype, cuts, col.pallete, add, cuts.type, lwd = 1.5, legend.att, zoom = NULL, ...)
 {
   box <- data@bbox
   wei <- set.wei(data,var)
@@ -167,7 +196,19 @@ plot.line <- function(data, var, decimals, maptype, cuts, col.pallete, add, cuts
     else prob <- cuts
   }
   
-  ch.var <- set.var(wei,decimals,prob,col.pallete)
+  ch.var <- set.var(wei, decimals, prob, col.pallete, 
+                    under = ifelse(is.null(legend.att$under), 'under', legend.att$under), 
+                    over = ifelse(is.null(legend.att$over), 'over', legend.att$over), 
+                    between = ifelse(is.null(legend.att$between), '-', legend.att$between))
+  
+  legend.att['between'] <- NULL
+  legend.att['under'] <- NULL
+  legend.att['over'] <- NULL
+  
+  legend.default <- list(x = "bottomright", legend = ch.var$leg, fill = ch.var$cols, cex = 1, ncol = 1, bty = "n")
+  legend.default[names(legend.att)] <- NULL
+  legend.list <- c(legend.att, legend.default)
+  
   if(is.null(var)){
     ch.var$vcol <- rep(ch.var$vcol, nrow(data))
   }
@@ -177,7 +218,10 @@ plot.line <- function(data, var, decimals, maptype, cuts, col.pallete, add, cuts
   n_pix    <- 640
   destfile <- 'TemporaryMap.png'
   
-  zoom <- min(MaxZoom(range(box[1,]), range(box[2,])))
+  if (is.null(zoom)) {
+    zoom <- min(MaxZoom(range(box[1,]), range(box[2,]))) 
+  }
+  
   map <- GetMap.bbox(box[1,], box[2,], format = 'png', maptype = maptype, 
                      destfile = destfile, zoom = zoom)		## png
   
@@ -194,7 +238,7 @@ plot.line <- function(data, var, decimals, maptype, cuts, col.pallete, add, cuts
     }
   }
   
-  if((!add) & (length(wei) > 0)) legend(legend.position,fill=ch.var$cols, legend=ch.var$leg, cex=1,ncol=1,bty="n")
+  if((!add) & (length(wei) > 0)) do.call(legend, legend.list)
   invisible(file.remove(c("TemporaryMap.png","TemporaryMap.png.rda")))
 }
 
@@ -214,3 +258,75 @@ spGoogle.httpd.handler <- function(path, query, ...) {
        "status code"=200L)
 }
 
+##-------------------------------------------------##
+"+.spGoogle" <- function(sp1, sp2, ...) {
+  sp2name <- deparse(substitute(sp2))
+  # out_plus <- 
+    merge_spGoogle(sp1, sp2name, ...)
+  # invisible(out_plus)
+}
+
+print.spGoogle <- function(x, ...) {
+  invisible(x)
+}
+
+
+merge_spGoogle <- function(sp1, spgoogleCall, ...) {
+  sp2 <- eval(parse(text=spgoogleCall)) 
+  output_spgoogle <- list(sp1, sp2)
+  kml_path     <- list(sp1$kmlpath, sp2$kmlpath)
+  kml_parse    <- lapply(kml_path, xmlTreeParse)
+  kml_document <- lapply(kml_parse, function(kml) kml$doc$children$kml[[1]])
+  kml_merged   <- Reduce(f = function(...) append.XMLNode(...), list(kml_parse[[1]]$doc$children$kml, kml_document[-1]))
+  
+  kml_merged_name <- tempfile(pattern = 'MERGED_KML_', fileext = '.kml')
+  kml_path <- file.path(dirname(sp1$kmlpath), basename(kml_merged_name))
+  saveXML(kml_merged, file = kml_path)
+  path <- list(kmlpath = kml_path, leg.path = sp1$leg.path)
+  
+  html_read <- readLines(sp1$html_path)
+  pos_leg <- grep('legenda', readLines(sp1$html_path))
+  leg1 <- html_read[pos_leg]
+  leg2 <- add_legend(leg = sp2$leg.path, tempdir = '.')
+  leg_final <- paste(c(leg1, leg2), collapse = ' ', sep = '')
+  html_read[pos_leg] <- leg_final
+  
+  pos_kml <- grep('kml', html_read)
+  html_read[pos_kml] <- gsub("\\(.*\\)", replacement = sprintf("(\'%s\')", basename(kml_path)), html_read[pos_kml])
+  
+  path.map <- sp1$html_path
+  
+  html <- file(path.map, open = 'w')
+  cat(html_read, sep = '\n', file = html)
+  close(html)
+  
+  env <- get( ".httpd.handlers.env", asNamespace("tools"))
+  env[["spGoogle"]] <- spGoogle.httpd.handler
+  
+  .url <- sprintf("http://127.0.0.1:%s/custom/spGoogle/%s",
+                  ifelse(R.version['svn rev'] < 67550 | getRversion() < "3.2.0",
+                         get("httpdPort", envir=environment(startDynamicHelp)),
+                         tools::startDynamicHelp(NA)
+                  ),
+                  path.map)
+  
+  viewer <- getOption("viewer")
+  if (!is.null(viewer))
+    viewer(.url)
+  else
+    utils:: browseURL(.url)
+  
+  out <- c(path, html_path = path.map)
+  class(out) <- 'spGoogle'
+  invisible(out)
+}
+
+add_legend <- function(leg, tempdir) {
+  if (!is.na(leg)) {
+    leg <- basename(leg)
+    legend_string <- paste('<img src=\"', tempdir, "/", leg, '\">', sep = "")
+  } else {
+    legend_string <- ''
+  }
+  return(legend_string)
+}
