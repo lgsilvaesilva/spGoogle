@@ -259,6 +259,13 @@ spGoogle.httpd.handler <- function(path, query, ...) {
 }
 
 ##-------------------------------------------------##
+
+#' @title Modify a spGoogle object by adding on new components.
+#' @description This operator allows you to add objects to a spGoogle object.
+#' @usage sp1 + sp2
+#' 
+#' @exportMethod + spGoogle
+#' @export
 "+.spGoogle" <- function(sp1, sp2, ...) {
   sp2name <- deparse(substitute(sp2))
   # out_plus <- 
@@ -266,6 +273,12 @@ spGoogle.httpd.handler <- function(path, query, ...) {
   # invisible(out_plus)
 }
 
+
+#' @title Invisible print to spGoogle objects.
+#' @description Invisibly returns the result of spGplot 
+#' which is a list with components that contain the kml and legend path.
+#' @exportMethod print spGoogle
+#' @export
 print.spGoogle <- function(x, ...) {
   invisible(x)
 }

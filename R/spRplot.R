@@ -1,3 +1,30 @@
+#' @title Interface GoogleMaps within R
+#' @description  Plot spatial data with GoogleMaps background.
+#'
+#' @param data a spatial data from any sp classes.
+#' @param var an attribute name in the spatial data.
+#' @param maptype GoogleMaps types: 'satellite', 'terrain', 'roadmap', 'satellite', 'hybrid'.
+#' @param decimals number of decimals in the legend.
+#' @param col.pallete a list containing the pallete of colors to be used (col) and the 
+#' transparency level (alpha) .
+#' @param legend.att a list containing the attributes for legend. See \code{\link[base]{legend}}.
+#' @param cuts number of cuts in the legend. Can also be a vector with the cuts point.
+#' @param cuts.type method of selecting the cuts points. Ignored if cuts = vector .
+#' @param lwd the line width for SpatialLines/SpatialLinesDataframe class.
+#' @param zoom zoom level.
+#' @param boolean. Default FALSE, if adding information to a previous plot.
+#'
+#' @return A plot window on the browser.
+#'
+#' @seealso See \code{\link{spGplot}}.
+#' 
+#' @examples
+#' 
+#' \dontrun{
+#' spRplot(rio)
+#' }
+#' @export spRplot
+#' @import RgoogleMaps PBSmapping
 spRplot <- function(data, var=NULL, maptype = 'satellite', decimals = 3, add = FALSE,
                     cuts = 5, cuts.type="range", 
                     col.pallete = list(col=heat.colors(if(length(cuts)==1) cuts else length(cuts)),alpha = 1), 
