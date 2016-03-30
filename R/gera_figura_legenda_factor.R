@@ -1,5 +1,5 @@
 gera_legenda_factor <- function(brks, cols, savekml, legend.att) {
-
+ 
 	if (!is.null(savekml)){
 	  dest.fig = tempfile(pattern = "legenda", fileext = ".png", tmpdir = getwd())
 	} else {
@@ -37,5 +37,5 @@ gera_legenda_factor <- function(brks, cols, savekml, legend.att) {
 		do.call(legend, legend.list)
 	dev.off()
 	
-	return (c(dest.fig, width, height))
+	return (c(dest.fig, width.leg, height.leg))
 }
