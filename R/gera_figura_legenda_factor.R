@@ -13,7 +13,7 @@ gera_legenda_factor <- function(brks, cols, savekml, legend.att) {
 	dim1 <- nchar(brks[ncat])
 	dim2 <- nchar("Legenda")
 	dim  <- ifelse(dim1<=dim2, dim2, dim1)
-	legend.default <- list(x = 'center', legend = cats, fill = cols, cex = 1.2, bg = '#FFFFFF')
+	legend.default <- list(x = 'center', legend = brks, fill = cols, cex = 1.2, bg = '#FFFFFF')
 	legend.default[names(legend.att)] <- NULL
 	legend.list <- c(legend.att, legend.default)
 	
