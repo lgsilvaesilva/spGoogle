@@ -8,8 +8,8 @@ spGplot(data, var = NULL, maptype = "satellite", description = list(var =
   NULL, type = NULL, title = NULL), decimals = 3, col.pallete = list(col =
   heat.colors(if (length(cuts) == 1) cuts else length(cuts)), alpha = 1),
   legend.att = list(title = NULL, ncol = 1, bg = "#FFFFFF"), cuts = 5,
-  cuts.type = "range", lwd = 1.5, savekml = NULL, map.name = "kml",
-  map.description = "description", google.maps = TRUE,
+  cuts.type = "range", lwd = 1.5, sizeBall = c(0.5, 1), savekml = NULL,
+  map.name = "kml", map.description = "description", google.maps = TRUE,
   google.earth.path = try(system("which google-earth", ignore.stdout = T,
   ignore.stderr = T), silent = T), ...)
 }
@@ -35,6 +35,8 @@ transparency level (alpha) .}
 \item{cuts.type}{method of selecting the cuts points. Ignored if cuts = vector .}
 
 \item{lwd}{the line width for SpatialLines/SpatialLinesDataframe class.}
+
+\item{sizeBall}{numeric vector of the length 2 providing the min and max of the balls.}
 
 \item{savekml}{the name of the output KML. If name is not defined the function will
 create the file in directory temporary. Default is NULL.}

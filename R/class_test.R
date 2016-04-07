@@ -8,6 +8,7 @@ class_test <- function(data,						# Shape contendo as informacoes.
                        cuts = 5, 
                        cuts.type = "range",
                        lwd = 1.5,
+                       sizeBall,
                        savekml = NULL,
                        map.name = "kml",						# Nome do mapa usado no arquivo KML
                        map.description = "description",		 		# Descricao do mapa usado no arquivo KML
@@ -54,7 +55,7 @@ class_test <- function(data,						# Shape contendo as informacoes.
   if (class(data) == "SpatialPointsDataFrame"  | class(data) == "SpatialPoints"){
     path <- PlotPointsG(data = data, var = var, description = description, map.name = map.name, 
                         map.description = map.description, decimals = decimals, col.pallete = col.pallete,
-                        legend.att = legend.att, cuts = cuts, cuts.type = cuts.type, savekml = savekml)
+                        sizeBall = sizeBall, legend.att = legend.att, cuts = cuts, cuts.type = cuts.type, savekml = savekml)
   }
   
   if(class(data) == "SpatialPixelsDataFrame" | class(data) == "SpatialPixels"

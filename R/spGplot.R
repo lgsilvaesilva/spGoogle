@@ -13,6 +13,7 @@
 #' @param cuts number of cuts in the legend. Can also be a vector with the cuts point.
 #' @param cuts.type method of selecting the cuts points. Ignored if cuts = vector .
 #' @param lwd the line width for SpatialLines/SpatialLinesDataframe class.
+#' @param sizeBall numeric vector of the length 2 providing the min and max of the balls.
 #' @param savekml the name of the output KML. If name is not defined the function will
 #' create the file in directory temporary. Default is NULL.
 #' @param map.name the name of the KML.
@@ -70,13 +71,14 @@ spGplot <- function(data,						# Shape contendo as informacoes.
                     cuts = 5, 
                     cuts.type = "range",
                     lwd = 1.5,
+                    sizeBall = c(0.5, 1),
                     savekml = NULL,
                     map.name = "kml",						# Nome do mapa usado no arquivo KML
                     map.description = "description",		 		# Descricao do mapa usado no arquivo KML
                     google.maps = TRUE,
                     google.earth.path = try(system("which google-earth", ignore.stdout = T, ignore.stderr = T), silent = T),...){
  
-    path <- class_test(data = data, var = var, maptype = maptype, description = description, decimals = decimals, col.pallete = col.pallete, legend.att = legend.att, cuts = cuts,  cuts.type = cuts.type, lwd = lwd, savekml = savekml, map.name = map.name, map.description = map.description, google.maps = google.maps, google.earth.path = google.earth.path, ...)
+    path <- class_test(data = data, var = var, maptype = maptype, description = description, decimals = decimals, col.pallete = col.pallete, legend.att = legend.att, cuts = cuts,  cuts.type = cuts.type, lwd = lwd, sizeBall = sizeBall, savekml = savekml, map.name = map.name, map.description = map.description, google.maps = google.maps, google.earth.path = google.earth.path, ...)
   
   if(google.maps){
     dir <- dirname(path$kmlpath)

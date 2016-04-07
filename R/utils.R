@@ -355,3 +355,44 @@ add_legend <- function(leg, tempdir) {
   }
   return(legend_string)
 }
+
+
+MakeBall <- function(col, radius, file, width, height, sizeMin, sizeMax){
+  x0 <- 0
+  y0 <- 0
+  r  <- radius
+  t  <- seq(0, 2*pi, length.out = 360)
+  x <- x0 + r*cos(t)
+  y <- y0 + r*sin(t)
+  
+  x <- c(x[length(x)],x, x[length(x)])
+  y <- c(y[length(y)],y, y[length(y)])
+  
+  png(filename = file, width, height, bg="#FFFFFF00")
+  op <- par(bg="transparent", oma = c(0, 0, 0, 0), mar = rep(0, 4))
+  plot(0,0, col="white", axes=F, col.axis = "white", xlab = "",ylab = "", xlim = c(-sizeMax, sizeMax), ylim = c(-sizeMax, sizeMax))
+  polygon(x,y, col = col)
+  dev.off()
+}
+
+LegendBubble <- function(col, radius, width, height){
+  x0 <- 0
+  y0 <- 0
+  t  <- seq(0, 2*pi, length.out = 360)
+  r <- sort(radius, decreasing = TRUE)
+  x <- lapply(r, FUN = function(x) x0 + x*cos(t))
+  y <- lapply(r, FUN = function(x) x0 + x*sin(t))
+  
+  x <- lapply(x, FUN = function(x) c(x[length(x)],x, x[length(x)]))
+  y <- lapply(y, FUN = function(y) c(y[length(y)],y, y[length(y)]))
+  
+  for (i in 1:length(y)){
+    y[[i]] <- y[[i]] - (max(r) - r)[i]
+  }
+  
+  # png(filename = "xx.png", width, height, bg="#FFFFFF00")
+  op <- par(bg="transparent", oma = c(0, 0, 0, 0), mar = rep(0, 4))
+  plot(0,0, col="white", axes=F, col.axis = "white", xlab = "",ylab = "", asp = 1)
+  mapply(polygon, x,y, col = col)
+  # dev.off()
+}

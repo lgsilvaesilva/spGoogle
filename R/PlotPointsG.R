@@ -6,8 +6,9 @@ PlotPointsG <- function(data,
 					 decimals,
 					 col.pallete,
 					 legend.att, 
-                     cuts, 
+           cuts, 
 					 cuts.type,
+					 sizeBall = c(0.5, 2),
 					 savekml){
 
 	output <- GeraMapa(data, var, description, map.name, map.description, decimals, col.pallete, legend.att, cuts, cuts.type, savekml = savekml)
@@ -18,7 +19,7 @@ PlotPointsG <- function(data,
 	brks      <- output$brks
 	plotclr   <- output$plotclr
 
-	size.ball.brks  <- seq(0.5, 1, length = cuts)	## Cria os tamanhos das bolinhas
+	size.ball.brks  <- seq(sizeBall[1], sizeBall[2], length = cuts)	## Cria os tamanhos das bolinhas
 	if (!is.null(savekml)){
 	  name.ball <- tempfile(paste("ball", as.character(1:cuts), sep = ""), fileext = ".png", tmpdir = getwd())
 	  #file.name.kml <- tempfile(pattern = "map", fileext = ".kml", tmpdir = getwd())
@@ -33,7 +34,7 @@ PlotPointsG <- function(data,
 	          mapply(MakeBall, col = plotclr, file = name.ball, width = 100, height = 100, radius = min(size.ball.brks))	## Cria os arquivos .png das bolinhas
         	  size.ball <- size.ball.brks[data@data[, var]]
 		}else{
-		  mapply(MakeBall, col = plotclr, file = name.ball, width = 100, height = 100, radius = size.ball.brks)	## Cria os arquivos .png das bolinhas
+		  mapply(MakeBall, col = plotclr, file = name.ball, width = 100, height = 100, radius = size.ball.brks, sizeMax = sizeBall[2])	## Cria os arquivos .png das bolinhas
 		  size.ball <- size.ball.brks[findInterval(data@data[, var], brks, rightmost.closed = TRUE, all.inside = TRUE)]	## Atribui para cada valor calculado qual o tamanho da bolinha
 		}
 	}else{
@@ -89,45 +90,5 @@ PlotPointsG <- function(data,
 		leg.path <- basename(leg.path)
 	}
         return(list(kmlpath = file.name.kml, leg.path = leg.path))
-}
-
-MakeBall <- function(col, radius, file, width, height){
-	x0 <- 0
-	y0 <- 0
-	r  <- radius
-	t  <- seq(0, 2*pi, length.out = 360)
-	x <- x0 + r*cos(t)
-	y <- y0 + r*sin(t)
-
-	x <- c(x[length(x)],x, x[length(x)])
-	y <- c(y[length(y)],y, y[length(y)])
-
-	png(filename = file, width, height, bg="#FFFFFF00")
-		op <- par(bg="transparent", oma = c(0, 0, 0, 0), mar = rep(0, 4))
-		plot(0,0, col="white", axes=F, col.axis = "white", xlab = "",ylab = "", xlim = c(-1, 1), ylim = c(-1, 1))
-		polygon(x,y, col = col)
-	dev.off()
-}
-
-LegendBubble <- function(col, radius, width, height){
-	x0 <- 0
-	y0 <- 0
-	t  <- seq(0, 2*pi, length.out = 360)
-	r <- sort(radius, decreasing = TRUE)
-	x <- lapply(r, FUN = function(x) x0 + x*cos(t))
-	y <- lapply(r, FUN = function(x) x0 + x*sin(t))
-
-	x <- lapply(x, FUN = function(x) c(x[length(x)],x, x[length(x)]))
-	y <- lapply(y, FUN = function(y) c(y[length(y)],y, y[length(y)]))
-
-	for (i in 1:length(y)){
-	  y[[i]] <- y[[i]] - (max(r) - r)[i]
-	}
-	
-	png(filename = "xx.png", width, height, bg="#FFFFFF00")
-		op <- par(bg="transparent", oma = c(0, 0, 0, 0), mar = rep(0, 4))
-		plot(0,0, col="white", axes=F, col.axis = "white", xlab = "",ylab = "")
-		mapply(polygon, x,y, col = col)
-	dev.off()
 }
 
