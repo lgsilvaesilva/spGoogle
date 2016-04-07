@@ -166,6 +166,7 @@ plot.pixel <- function(data, var, decimals, maptype, cuts, col.pallete,add,cuts.
 ###########################################################################################
 ## Plot kernel
 ###########################################################################################
+#' @importFrom sp SpatialPoints points2grid SpatialGridDataFrame
 plot.im <- function(data, var, decimals, maptype, cuts, col.pallete,add,cuts.type, legend.att, zoom = NULL, ...)
 {
   sp.point <- SpatialPoints(cbind(data$xcol, data$yrow))
@@ -186,6 +187,7 @@ plot.im <- function(data, var, decimals, maptype, cuts, col.pallete,add,cuts.typ
 ###########################################################################################
 ## Plot Lines
 ###########################################################################################
+#' @importFrom sp coordinates
 plot.line <- function(data, var, decimals, maptype, cuts, col.pallete, add, cuts.type, lwd = 1.5, legend.att, zoom = NULL, ...)
 {
   box <- data@bbox
@@ -262,14 +264,16 @@ spGoogle.httpd.handler <- function(path, query, ...) {
 
 #' @title Modify a spGoogle object by adding on new components.
 #' @description This operator allows you to add objects to a spGoogle object.
-#' @usage sp1 + sp2
+#' @param e1 object of the spGoogle class
+#' @param e2 object of the spGoogle class
+#' @param ... further arguments passed to or from other methods.
 #' 
 #' @exportMethod + spGoogle
 #' @export
-"+.spGoogle" <- function(sp1, sp2, ...) {
-  sp2name <- deparse(substitute(sp2))
+"+.spGoogle" <- function(e1, e2, ...) {
+  sp2name <- deparse(substitute(e2))
   # out_plus <- 
-    merge_spGoogle(sp1, sp2name, ...)
+    merge_spGoogle(e1, sp2name, ...)
   # invisible(out_plus)
 }
 
@@ -277,13 +281,21 @@ spGoogle.httpd.handler <- function(path, query, ...) {
 #' @title Invisible print to spGoogle objects.
 #' @description Invisibly returns the result of spGplot 
 #' which is a list with components that contain the kml and legend path.
+#' @param x object of the spGoogle class
+#' @param ... further arguments passed to or from other methods.
 #' @exportMethod print spGoogle
 #' @export
 print.spGoogle <- function(x, ...) {
   invisible(x)
 }
 
-
+#' @title Merge spGoogle objects
+#' @description Merge spGoogle objects
+#' @param sp1 object of the spGoogle class
+#' @param spgoogleCall list of paramters
+#' @param ... further arguments passed to or from other methods.
+#' @importFrom tools startDynamicHelp
+#' @export
 merge_spGoogle <- function(sp1, spgoogleCall, ...) {
   sp2 <- eval(parse(text=spgoogleCall)) 
   output_spgoogle <- list(sp1, sp2)

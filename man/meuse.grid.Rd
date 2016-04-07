@@ -14,13 +14,13 @@
  Using +datum=WGS84.
  
  @source \url{http://www.gstat.org/}
- @references See the \code{\link[base]{meuse}} documentation.}
+ @references See the \code{\link{meuse}} documentation.}
 \usage{
 data(meuse.grid)
 }
 \description{
 The meuse.grid has a grid with 0.0002 degrees x 0.0002 degrees 
-spacing that covers the Meuse study area (see \link{meuse}) in a latitude longitude format .
+spacing that covers the Meuse study area (see \code{\link{meuse}}) in a latitude longitude format .
 }
 \examples{
 \dontrun{

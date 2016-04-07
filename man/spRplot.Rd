@@ -18,6 +18,8 @@ spRplot(data, var = NULL, maptype = "satellite", decimals = 3,
 
 \item{decimals}{number of decimals in the legend.}
 
+\item{add}{boolean. Default FALSE, if adding information to a previous plot.}
+
 \item{cuts}{number of cuts in the legend. Can also be a vector with the cuts point.}
 
 \item{cuts.type}{method of selecting the cuts points. Ignored if cuts = vector .}
@@ -25,13 +27,13 @@ spRplot(data, var = NULL, maptype = "satellite", decimals = 3,
 \item{col.pallete}{a list containing the pallete of colors to be used (col) and the 
 transparency level (alpha) .}
 
-\item{legend.att}{a list containing the attributes for legend. See \code{\link[base]{legend}}.}
+\item{legend.att}{a list containing the attributes for legend. See \code{\link[graphics]{legend}}.}
 
 \item{zoom}{zoom level.}
 
 \item{lwd}{the line width for SpatialLines/SpatialLinesDataframe class.}
 
-\item{boolean.}{Default FALSE, if adding information to a previous plot.}
+\item{...}{further arguments passed to or from other methods.}
 }
 \value{
 A plot window on the browser.

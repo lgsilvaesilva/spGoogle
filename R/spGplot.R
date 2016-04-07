@@ -9,7 +9,7 @@
 #' @param decimals number of decimals in the legend.
 #' @param col.pallete a list containing the pallete of colors to be used (col) and the 
 #' transparency level (alpha) .
-#' @param legend.att a list containing the attributes for legend. See \code{\link[base]{legend}}.
+#' @param legend.att a list containing the attributes for legend. See \code{\link[graphics]{legend}}.
 #' @param cuts number of cuts in the legend. Can also be a vector with the cuts point.
 #' @param cuts.type method of selecting the cuts points. Ignored if cuts = vector .
 #' @param lwd the line width for SpatialLines/SpatialLinesDataframe class.
@@ -19,6 +19,7 @@
 #' @param map.description the description of th KML.
 #' @param google.maps boolean. Default TRUE. Define if the data should be exported to GoogleMaps.
 #' @param google.earth.path  if google.maps = FALSE then GoogleEarth path must be provided
+#' @param ... further arguments passed to or from other methods.
 #'
 #' @return A plot window on the browser.
 #'

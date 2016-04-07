@@ -6,6 +6,11 @@
 \usage{
 \method{print}{spGoogle}(x, ...)
 }
+\arguments{
+\item{x}{object of the spGoogle class}
+
+\item{...}{further arguments passed to or from other methods.}
+}
 \description{
 Invisibly returns the result of spGplot 
 which is a list with components that contain the kml and legend path.

@@ -7,12 +7,13 @@
 #' @param decimals number of decimals in the legend.
 #' @param col.pallete a list containing the pallete of colors to be used (col) and the 
 #' transparency level (alpha) .
-#' @param legend.att a list containing the attributes for legend. See \code{\link[base]{legend}}.
+#' @param legend.att a list containing the attributes for legend. See \code{\link[graphics]{legend}}.
 #' @param cuts number of cuts in the legend. Can also be a vector with the cuts point.
 #' @param cuts.type method of selecting the cuts points. Ignored if cuts = vector .
 #' @param lwd the line width for SpatialLines/SpatialLinesDataframe class.
 #' @param zoom zoom level.
-#' @param boolean. Default FALSE, if adding information to a previous plot.
+#' @param add boolean. Default FALSE, if adding information to a previous plot.
+#' @param ... further arguments passed to or from other methods.
 #'
 #' @return A plot window on the browser.
 #'
@@ -56,13 +57,13 @@ spRplot <- function(data, var=NULL, maptype = 'satellite', decimals = 3, add = F
    col.pallete <- ColAlpha(col.pallete$col, col.pallete$alpha)
    
    if(class(data) == "SpatialPolygonsDataFrame" | class(data) == "SpatialPolygons") 
-        plot.poly(data,var,decimals,maptype,cuts,col.pallete,add,cuts.type, legend.att, zoom, ...)
+        plot.poly(data,var,decimals,maptype,cuts,col.pallete,add,cuts.type, legend.att, zoom = zoom, ...)
 
    if(class(data) == "SpatialPointsDataFrame"  | class(data) == "SpatialPoints") 
-        plot.points(data,var,decimals,maptype,cuts,col.pallete,add,cuts.type, legend.att, zoom, ...)
+        plot.points(data,var,decimals,maptype,cuts,col.pallete,add,cuts.type, legend.att, zoom = zoom, ...)
 
    if(class(data) == "SpatialLinesDataFrame"  | class(data) == "SpatialLines") 
-     plot.line(data,var,decimals,maptype,cuts,col.pallete,add,cuts.type, lwd, legend.att, zoom, ...)
+     plot.line(data,var,decimals,maptype,cuts,col.pallete,add,cuts.type, lwd, legend.att, zoom = zoom, ...)
 #   if(class(data) == "im"){
 #        cat("\nPlotting kernel may take a while!\n")
 #        plot.im(data,NULL,decimals,maptype,cuts,col.pallete,add,cuts.type)
@@ -71,7 +72,7 @@ spRplot <- function(data, var=NULL, maptype = 'satellite', decimals = 3, add = F
    if(class(data) == "SpatialPixelsDataFrame" | class(data) == "SpatialPixels"
       | class(data) == "SpatialGridDataFrame" | class(data) == "SpatialGrid"){
         cat("\nPlotting grid may take a while!\n")
-        plot.pixel(data,var,decimals,maptype,cuts,col.pallete,add,cuts.type, legend.att, zoom, ...)
+        plot.pixel(data,var,decimals,maptype,cuts,col.pallete,add,cuts.type, legend.att, zoom = zoom, ...)
    }
 
 }  

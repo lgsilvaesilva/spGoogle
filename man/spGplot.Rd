@@ -28,7 +28,7 @@ name(s) in the spatial data. type = type of plot inside the balloon: 'table', 'b
 \item{col.pallete}{a list containing the pallete of colors to be used (col) and the 
 transparency level (alpha) .}
 
-\item{legend.att}{a list containing the attributes for legend. See \code{\link[base]{legend}}.}
+\item{legend.att}{a list containing the attributes for legend. See \code{\link[graphics]{legend}}.}
 
 \item{cuts}{number of cuts in the legend. Can also be a vector with the cuts point.}
 
@@ -46,6 +46,8 @@ create the file in directory temporary. Default is NULL.}
 \item{google.maps}{boolean. Default TRUE. Define if the data should be exported to GoogleMaps.}
 
 \item{google.earth.path}{if google.maps = FALSE then GoogleEarth path must be provided}
+
+\item{...}{further arguments passed to or from other methods.}
 }
 \value{
 A plot window on the browser.

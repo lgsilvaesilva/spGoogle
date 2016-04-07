@@ -6,17 +6,17 @@
 \title{River Meuse outline}
 \format{This data frame polygon of the Meuse river in a latitude longitude format.}
 \source{
-See the \code{\link[base]{meuse.riv}} for more documentation.
+See the \code{\link{meuse.riv}} for more documentation.
 }
 \usage{
 data(meuse.riv)
 }
 \description{
 The meuse.riv data consists of an outline of the Meuse
-river in the area a few kilometers around the \link{meuse} data set.
+river in the area a few kilometers around the \code{\link{meuse}} data set.
 }
 \examples{
-\dontrun{
+ \dontrun{
 data(meuse.riv)
 spRplot(meuse.riv,col.pallete=list(col='blue'))
 }

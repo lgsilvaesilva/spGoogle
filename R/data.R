@@ -19,7 +19,7 @@
 #' @keywords datasets
 #' @name rio
 #' @usage data(rio)
-#' @examples 
+#' @examples
 #'  \dontrun{
 #'  ##Using spRplot
 #'  #plot the shapefile
@@ -40,11 +40,11 @@ NULL
 #' River Meuse outline
 #' 
 #' The meuse.riv data consists of an outline of the Meuse
-#' river in the area a few kilometers around the \link{meuse} data set.
+#' river in the area a few kilometers around the \code{\link{meuse}} data set.
 #' 
 #' @format This data frame polygon of the Meuse river in a latitude longitude format.
 #' 
-#' @source See the \code{\link[base]{meuse.riv}} for more documentation.
+#' @source See the \code{\link{meuse.riv}} for more documentation.
 #' 
 #' @docType data
 #' @keywords datasets
@@ -52,7 +52,7 @@ NULL
 #' @usage data(meuse.riv)
 #' 
 #' @examples
-#' \dontrun{
+#'  \dontrun{
 #' data(meuse.riv)
 #' spRplot(meuse.riv,col.pallete=list(col='blue'))
 #' }
@@ -123,7 +123,7 @@ NULL
 #' Prediction Grid for Meuse Data Set 
 #'
 #' The meuse.grid has a grid with 0.0002 degrees x 0.0002 degrees 
-#' spacing that covers the Meuse study area (see \link{meuse}) in a latitude longitude format . 
+#' spacing that covers the Meuse study area (see \code{\link{meuse}}) in a latitude longitude format . 
 #' 
 #' @format  This data frame contains the following columns:
 #' \describe{
@@ -135,7 +135,7 @@ NULL
 #'  Using +datum=WGS84.
 #'  
 #'  @source \url{http://www.gstat.org/}
-#'  @references See the \code{\link[base]{meuse}} documentation.
+#'  @references See the \code{\link{meuse}} documentation.
 #'  
 #' @usage data(meuse.grid)
 #' 

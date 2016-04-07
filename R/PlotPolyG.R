@@ -6,7 +6,7 @@ PlotPolyG <- function(data,
 					 decimals,
 					 col.pallete,
 					 legend.att,
-           cuts, 
+                     			 cuts, 
 					 cuts.type,
 					 savekml,
 					 border = "#A5A5A5"){
