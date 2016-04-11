@@ -34,7 +34,7 @@ PlotPointsG <- function(data,
 	          mapply(MakeBall, col = plotclr, file = name.ball, width = 100, height = 100, radius = min(size.ball.brks))	## Cria os arquivos .png das bolinhas
         	  size.ball <- size.ball.brks[data@data[, var]]
 		}else{
-		  mapply(MakeBall, col = plotclr, file = name.ball, width = 100, height = 100, radius = size.ball.brks, sizeMax = sizeBall[2])	## Cria os arquivos .png das bolinhas
+		  mapply(MakeBall, col = plotclr, file = name.ball, width = 100, height = 100, radius = size.ball.brks, sizeMin = sizeBall[1], sizeMax = sizeBall[2])	## Cria os arquivos .png das bolinhas
 		  size.ball <- size.ball.brks[findInterval(data@data[, var], brks, rightmost.closed = TRUE, all.inside = TRUE)]	## Atribui para cada valor calculado qual o tamanho da bolinha
 		}
 	}else{

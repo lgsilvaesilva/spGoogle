@@ -357,7 +357,7 @@ add_legend <- function(leg, tempdir) {
 }
 
 
-MakeBall <- function(col, radius, file, width, height, sizeMin, sizeMax){
+MakeBall <- function(col, radius, file, width, height, sizeMin = 0.5, sizeMax = 1){
   x0 <- 0
   y0 <- 0
   r  <- radius
