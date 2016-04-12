@@ -68,7 +68,7 @@ PlotPointsG <- function(data,
 	## Le o arquivo kml do mapa das bolinhas
 	if (dim(data)[2] != 1) {
 		doc.aux <- readLines(file.name.kml)
-		doc.aux[1] <- gsub("UTF-8", "latin1", doc.aux[1])
+		# doc.aux[1] <- gsub("UTF-8", "latin1", doc.aux[1])
 		doc <- xmlParse(doc.aux)
 	if (!is.null(var)){
 		legenda.node <- getNodeSet(doc, "//x:Document","x")
