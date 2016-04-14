@@ -80,12 +80,15 @@ spGplot <- function(data,						# Shape contendo as informacoes.
  
     path <- class_test(data = data, var = var, maptype = maptype, description = description, decimals = decimals, col.pallete = col.pallete, legend.att = legend.att, cuts = cuts,  cuts.type = cuts.type, lwd = lwd, sizeBall = sizeBall, savekml = savekml, map.name = map.name, map.description = map.description, google.maps = google.maps, google.earth.path = google.earth.path, ...)
   
-  if(google.maps){
     dir <- dirname(path$kmlpath)
     file <- basename(path$kmlpath)
     leg.file <- path$leg.path
     path.map <- genHTML(maptype = maptype, kml = file, leg = leg.file, tempdir = '.', dir_save = dir)
 
+    if(!isServerRunning() ) {
+      startDynamicHelp()
+    }
+    
     env <- get( ".httpd.handlers.env", asNamespace("tools"))
     env[["spGoogle"]] <- spGoogle.httpd.handler
     root.dir <- dir
@@ -95,7 +98,7 @@ spGplot <- function(data,						# Shape contendo as informacoes.
                            tools::startDynamicHelp(NA)
                     ),
                     path.map)
-    
+  if(google.maps){ 
     viewer <- getOption("viewer")
     if (!is.null(viewer))
       viewer(.url)

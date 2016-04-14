@@ -272,9 +272,7 @@ spGoogle.httpd.handler <- function(path, query, ...) {
 #' @export
 "+.spGoogle" <- function(e1, e2, ...) {
   sp2name <- deparse(substitute(e2))
-  # out_plus <- 
-    merge_spGoogle(e1, sp2name, ...)
-  # invisible(out_plus)
+  merge_spGoogle(e1, sp2name, ...)
 }
 
 
@@ -325,6 +323,10 @@ merge_spGoogle <- function(sp1, spgoogleCall, ...) {
   cat(html_read, sep = '\n', file = html)
   close(html)
   
+  if(!isServerRunning() ) {
+    startDynamicHelp()
+  }
+  
   env <- get( ".httpd.handlers.env", asNamespace("tools"))
   env[["spGoogle"]] <- spGoogle.httpd.handler
   
@@ -345,6 +347,14 @@ merge_spGoogle <- function(sp1, spgoogleCall, ...) {
   class(out) <- 'spGoogle'
   invisible(out)
 }
+
+isServerRunning <- function() {
+  ifelse(R.version['svn rev'] < 67550 | getRversion() < "3.2.0",
+         get("httpdPort", envir = environment(startDynamicHelp))>0,
+         tools::startDynamicHelp(NA)>0
+  )
+}
+
 
 add_legend <- function(leg, tempdir) {
   if (!is.na(leg)) {
@@ -396,3 +406,5 @@ LegendBubble <- function(col, radius, width, height){
   mapply(polygon, x,y, col = col)
   # dev.off()
 }
+
+
